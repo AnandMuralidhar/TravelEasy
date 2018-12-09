@@ -41,6 +41,18 @@ label {
 String plan = request.getParameter("plan"); 
 %>
 <h3>${message}</h3>
+	
+	<div class="w3-container" style="margin-top: 40px; margin-right: 50px;">
+	<form method="POST" action="/logout" style="float: right; padding-left: 1%;" >
+	<p align="right">
+    <input type="submit" class="w3-btn w3-black" value="Logout"></p>
+	</form>
+	<form method="GET" action="/userHomePage" style="float:right;">
+	<p align="right">
+    <input type="submit" class="w3-btn w3-black" value="Back"></p>
+	</form>
+	</div>
+	
 <div class="post-container">
 <form method="POST" class="form-horizontal" action="/postreviews"  enctype="multipart/form-data">				
 				<input type="hidden" name="username" value="<%=username%>">
