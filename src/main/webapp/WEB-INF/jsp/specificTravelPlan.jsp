@@ -76,11 +76,11 @@ input[type=submit]:hover {
 <body>
 
 	<div class="w3-container" style="margin-top: 40px; margin-right: 50px;">
-	<form method="POST" action="/logout" >
+	<form method="POST" action="/logout" style="float: right; padding-left: 1%;" >
 	<p align="right">
     <input type="submit" class="w3-btn w3-black" value="Logout"></p>
 	</form>
-	<form method="GET" action="/userTravelPlans" >
+	<form method="GET" action="/userTravelPlans" style="float:right;">
 	<p align="right">
     <input type="submit" class="w3-btn w3-black" value="Back"></p>
 	</form>
@@ -109,8 +109,7 @@ ${message1}
     
     
 <%-- <button type="submit" id="getreviews" class="getreviews" onClick="getreviews('${SpecificTravelPlan.plan}')" >Reviews</button>
---%>
-<div id="displayreviews" style="width: 100%;">
+<div id="displayreviews"></div> --%>
 
  <a href="/getReviews?plan=${SpecificTravelPlan.plan}"><h4><strong><font color= "black" style="margin-left: 690px" >Show Reviews</font></strong></h4></a>
     
@@ -120,46 +119,33 @@ ${message1}
 	 ArrayList<Reviews> a = (ArrayList<Reviews>)session.getAttribute("planReview"); 
 
 	 System.out.println("Value is there");
-	 for(Reviews r : a) 
+	 for(Reviews u : a) 
 	 { %>
-	 <div class="dynamicreviews" style="width: 30%; padding:2%; float: left;" >
-	 <a target="_blank" href="<%r.getImageUrl();%>">
-    <img src="<%=r.getImageUrl()%>" alt="Cinque Terre" style="width:280px; height: 280px">
-  </a>
-  <div class="desc"><%r.getuserName();%></div> 
-  <%out.println(r.getuserName()); %>
- <%out.println(r.getComment()); %>
-	 </div>
 	 
-	<%  
+	 <a target="_blank" href="<%u.getImageUrl();%>">
+    <img src="<%=u.getImageUrl()%>" alt="Cinque Terre" style="width:280px; height: 280px">
+  </a>
+  <div class="desc"><%u.getComment();%></div> 
+	 
+	 
+	<%  out.println(u.getComment()); 
 	 } 
  }
  %> 
-  </div>   
     
-  <%--   <c:forEach items="${planReview}" var="item1">
-	<div class="gallery">
-  <a target="_blank" href="${item1.imageurl}">
-    <img src="${item1.imageurl}" alt="Cinque Terre" style="width:280px; height: 280px">
-  </a>
-  <div class="desc">${item1.comment}</div>       
-  </div>
-   </c:forEach> --%>
-   
+    
+ 
    
 </div>
 
+<style>
+.container {
+clear: both;
+}
 
+</style>
 </body>
 </html>
-
-
-
-
-
-
-
-
 
 
 
