@@ -105,7 +105,7 @@
 <h1><font color= "white">${message}</font></h1>
 <form method="POST" class="form-horizontal" action="/customlogin">
 <p><b>User Name &ensp;
-<input type="text" id="username" placeholder="Enter User name" name="username"  required></p>
+<input type="text" id="username" placeholder="Enter User Enter your UserName" name="username"  required></p>
 <p><b>Password &ensp;
 <input type="password" id="pwd" placeholder="Enter password" name="pwd" required></p>
 <p></p></br>
