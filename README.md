@@ -26,6 +26,7 @@ Students:
 
 
 ### Demo
+[Demo video Link](https://youtu.be/dKUfDHfROKw)
 
 ### Project Problem Statement:
 “Live life with no excuses, travel with no regrets” – Oscar Wilde. Many travelers plan to travel different places around the world during different times of the year. Planning your travel is a major work. Once the traveler decides the location of his travel, he must check individually with each travel agency for itinerary and the budget. Which consumes lot of time. Due to which the user will end up visiting few websites. If more travel plans are available under single platform then there is exposure for various travel companies and their plans. 
@@ -49,6 +50,21 @@ Wouldn’t it be easier if somebody planned your trip? And all you must do is pa
 
 
 ### Application Screenshots
+
+User signup:
+ 
+
+
+
+Company signup:
+ 
+
+
+
+Login Page
+
+ 
+
 
 
 
