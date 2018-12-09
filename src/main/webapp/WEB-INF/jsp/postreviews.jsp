@@ -40,7 +40,7 @@ label {
  System.out.println(username);
 String plan = request.getParameter("plan"); 
 %>
-<h3>${message}</h3>
+
 	
 	<div class="w3-container" style="margin-top: 40px; margin-right: 50px;">
 	<form method="POST" action="/logout" style="float: right; padding-left: 1%;" >
