@@ -21,6 +21,7 @@ table {
 
 .dashboardtable{
 width: 100% !important;	
+	
 }
 .dthead {
 	text-align: left;
