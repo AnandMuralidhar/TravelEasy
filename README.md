@@ -47,26 +47,63 @@ Wouldn’t it be easier if somebody planned your trip? And all you must do is pa
 9.	Machine learning predicts user’s interests based on the reviews provided by them, which in turn helps Travel Companies to modify their plans.
 
 ### Architecture Diagram
+![alt text](https://github.com/AnandMuralidhar/TravelEasy/blob/master/image.png)
 
+Code Pipeline
+![alt text](https://github.com/AnandMuralidhar/TravelEasy/blob/master/image%20(1).png)
 
 ### Application Screenshots
 
 User signup:
- 
+
+ ![alt text](https://github.com/AnandMuralidhar/TravelEasy/blob/master/usersignup.png)
 
 
 
 Company signup:
+
+ ![alt text](https://github.com/AnandMuralidhar/TravelEasy/blob/master/companysignup.png)
+
+
+
+Login Page:
+
+ ![alt text](https://github.com/AnandMuralidhar/TravelEasy/blob/master/login.png)
+
+
+
+User Dashboard:
+
+![alt text](https://github.com/AnandMuralidhar/TravelEasy/blob/master/userdashboard.png)
+
+
+User Lex bot:
+
+![alt text](https://github.com/AnandMuralidhar/TravelEasy/blob/master/amazonlex.png)
+
+
+Travel Plans:
+
+![alt text](https://github.com/AnandMuralidhar/TravelEasy/blob/master/travelplans.png)
+
+
+Specific travel plan:
+
+![alt text](https://github.com/AnandMuralidhar/TravelEasy/blob/master/specifictravelplan.png)
+
+
+
+Company Dashboard:
+
+![alt text](https://github.com/AnandMuralidhar/TravelEasy/blob/master/companydashboard.png)
+
+
+
+Machine learning analysis:
+
+![alt text](https://github.com/AnandMuralidhar/TravelEasy/blob/master/machinelearning.png)
+
  
-
-
-
-Login Page
-
- 
-
-
-
 
 ### Pre-requisite Set Up
 
