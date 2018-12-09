@@ -15,5 +15,8 @@ public interface ReviewsRepository extends JpaRepository<Reviews,Integer>{
 
 	@Query("SELECT r FROM Reviews r WHERE LOWER(r.username) = LOWER(:username)")
     public ArrayList<Reviews> retrieveReviews(@Param("username") String username);
+	
+	@Query("SELECT r FROM Reviews r WHERE LOWER(r.plan) = LOWER(:plan)")
+    public ArrayList<Reviews> getReviews(@Param("plan") String plan);
 }
 

@@ -4,6 +4,8 @@
 <html lang="en">
 <head>
 <title>Company Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -57,6 +59,27 @@ margin-left: 4%;
 #displayreviews {
 width: 100%;
 margin: 4%;
+}
+
+div.gallery {
+    margin: 5px;
+    border: 1px solid #ccc;
+    float: left;
+    width: 280px;
+}
+
+div.gallery:hover {
+    border: 1px solid #777;
+}
+
+div.gallery img {
+    width: 100%;
+    height: auto;
+}
+
+div.desc {
+    padding: 15px;
+    text-align: center;
 }
 
 </style>	
@@ -163,6 +186,7 @@ margin: 4%;
 <td><input type="hidden" id="plan" value="${item.plan}">
 
 <button type="submit" id="getreviews" value="${item.plan}" class="getreviews" onClick="getreviews('${item.plan}')" >Reviews</button> </td>
+
 </tr>										
  </c:forEach>
 </tbody>
@@ -170,6 +194,10 @@ margin: 4%;
  <% }
  %>
   </div>
+   
+ 
+  
+  
   <div id="displayreviews"></div>
 	</body>
 	<script>

@@ -9,7 +9,6 @@
 </head>
 <body>
 <%
-System.out.println("retrieve reviews");
    String q = request.getParameter("plan");
 System.out.println(q);
    try {
@@ -39,6 +38,6 @@ System.out.println(q);
         e.printStackTrace();
    }
 %>
-<script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.9.0/slick/slick.min.js"></script>
+
 </body>
 </html>

@@ -21,7 +21,7 @@
 <input type="text"  id="fname" placeholder="Enter first name" name="fname" ></p></br>
 
   <p><b>Username	&ensp;
-<input type="text"  id="username" placeholder="Enter maximum 8 charecters" name="username" pattern="[A-Za-z 0-9]{1,8}"  required></p><br>
+<input type="text"  id="username" placeholder="Enter username max 8" name="username" pattern="[A-Za-z 0-9]{1,8}"  required></p><br>
 
 
 <p>EmailID &ensp;

@@ -4,6 +4,8 @@
        <%@ page import ="java.util.ArrayList"%>
 <!DOCTYPE html><html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="/resources/script.js"></script>
@@ -17,6 +19,7 @@
 
 </script>
 <style>
+
 table {
 	width: 100% !important;	
 }
@@ -46,7 +49,7 @@ text-decoration: none;
 }
 </style>
 </head>
-<body>
+<body id="bdy">
 <h2>Welcome ${loggedUser.getUserfirstname()}</h2>
 <div class="previoustravelplans">
 <% 
@@ -77,15 +80,14 @@ for(Usertravelplan u : a)
 	<td><%out.println(u.getBudget()); %></td>
 
 <td><button><a href="postreviews?username=<%=u.getuserName()%>&plan=<%=u.getPlan()%>">Post reviews</a></button></td></tr>
-										
-
-	 
- <% } %>
+<% } %>										
 </tbody>
 
-
+ 
 </table>
-<%  }
+	 
+ 
+ <% }
  else
  { %>
 	 <div class="noplans">
@@ -96,10 +98,10 @@ for(Usertravelplan u : a)
  	</div>
 
 <div>
-
-<form method="GET"  action="/lex1">
-<button type="submit" class="btn btn-success lex">Lex</button> 
-</form>
+<br /><br /><br />
+<center><form method="GET"  action="/lex1" style="margin-right: 500px">
+<button type="submit" class="w3-btn w3-black">Travel Chat</button> 
+</form><center>
 
 </div>
  </body>

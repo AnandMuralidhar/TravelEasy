@@ -59,6 +59,8 @@ window.onload = function () {
 	chart.render();
 }
 </script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script
@@ -68,9 +70,16 @@ window.onload = function () {
 
 </head>
 <body>
+			<div class="w3-container" style="margin-top: 40px; margin-right: 50px;">
+			<form method="POST" action="/logout" >
+			<p align="right">
+    		<input type="submit" class="w3-btn w3-black" value="Logout"></p>
+			</form>
+			</div>
 <center>
 <div class="main-container">
 <div class="predict-container">
+
 	<form method="POST" class="form-horizontal" action="/prediction">
 	<label for="country">Country:</label>
 				<div class="predictdata">

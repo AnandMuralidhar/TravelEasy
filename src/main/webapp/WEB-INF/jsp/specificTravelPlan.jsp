@@ -1,7 +1,22 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" isELIgnored = "false"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import ="com.traveleasy.model.Reviews" %>
+       <%@ page import ="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="application/javascript">
+ function getreviews(plan) {
+	 alert(plan);	
+	 $.get("retrievereviews",{plan:plan},function(data){
+System.out.println(data);
+     $("#displayreviews").html(data);
+	 
+     });
+ }
+
+</script>
 <style>
 body {
   font-family: Times New Roman, Times, serif;
@@ -60,7 +75,18 @@ input[type=submit]:hover {
 </head>
 <body>
 
-${message}
+	<div class="w3-container" style="margin-top: 40px; margin-right: 50px;">
+	<form method="POST" action="/logout" >
+	<p align="right">
+    <input type="submit" class="w3-btn w3-black" value="Logout"></p>
+	</form>
+	<form method="GET" action="/userTravelPlans" >
+	<p align="right">
+    <input type="submit" class="w3-btn w3-black" value="Back"></p>
+	</form>
+	</div>
+
+${message1}
 <div class="container">
   <div style="text-align:center">
 
@@ -75,29 +101,66 @@ ${message}
        
        <h4> Budget:  ${SpecificTravelPlan.budget} </h4><br /> 
        <a href="/selectPlan?travelPlan=${SpecificTravelPlan}">Select This Plan</a>
+      
     </div>
+    
     
     <input type="hidden" id="plan" value="${SpecificTravelPlan.plan}">
     
     
-<button type="submit" id="getreviews" class="getreviews" onClick="getreviews('${SpecificTravelPlan.plan}')" >Reviews</button>
+<%-- <button type="submit" id="getreviews" class="getreviews" onClick="getreviews('${SpecificTravelPlan.plan}')" >Reviews</button>
+--%>
+<div id="displayreviews" style="width: 100%;">
 
-</div>
-<div id="displayreviews"></div>
+ <a href="/getReviews?plan=${SpecificTravelPlan.plan}"><h4><strong><font color= "black" style="margin-left: 690px" >Show Reviews</font></strong></h4></a>
     
+     <% 
+ if(session.getAttribute("planReview") != null)
+ {
+	 ArrayList<Reviews> a = (ArrayList<Reviews>)session.getAttribute("planReview"); 
 
+	 System.out.println("Value is there");
+	 for(Reviews r : a) 
+	 { %>
+	 <div class="dynamicreviews" style="width: 30%; padding:2%; float: left;" >
+	 <a target="_blank" href="<%r.getImageUrl();%>">
+    <img src="<%=r.getImageUrl()%>" alt="Cinque Terre" style="width:280px; height: 280px">
+  </a>
+  <div class="desc"><%r.getuserName();%></div> 
+  <%out.println(r.getuserName()); %>
+ <%out.println(r.getComment()); %>
+	 </div>
+	 
+	<%  
+	 } 
+ }
+ %> 
+  </div>   
+    
+  <%--   <c:forEach items="${planReview}" var="item1">
+	<div class="gallery">
+  <a target="_blank" href="${item1.imageurl}">
+    <img src="${item1.imageurl}" alt="Cinque Terre" style="width:280px; height: 280px">
+  </a>
+  <div class="desc">${item1.comment}</div>       
+  </div>
+   </c:forEach> --%>
+   
+   
+</div>
 
 
 </body>
-<script>
-
-function getreviews(plan) {
-	 $.get("test",{plan:plan},function(data){
-
-    $("#displayreviews").html(data);
-	 
-    });
-} 
-
-</script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -145,11 +145,6 @@ public class HomeController {
 	public String userdashboard() {
 		return "userdashboard";
 	}
-	
-	@GetMapping("/fblogin")
-	public String fblogin() {
-		return "fblogin";
-	}
 
 	@GetMapping("/retrievereviews")
 	public String retrievereviews() {
@@ -220,7 +215,7 @@ public class HomeController {
 		up.setuserName(lexUserId);
 		if(userService.adduserTravelPlan(up))
 		{
-			session.setAttribute("message", "Travel Plan selected");
+			session.setAttribute("message1", "Travel Plan selected");
 			return "redirect:/specificTravelPlan";
 		}else
 		{
@@ -319,7 +314,7 @@ public class HomeController {
 		user.setUseremailid(email);
 		user.setUserfirstname(name);
 		session.setAttribute("loggedUser", user.getUserfirstname());
-		return "redirect:/userHomepage";
+		return "redirect:/lex1";
 	}
 
 	@GetMapping("/lex")
@@ -626,6 +621,17 @@ System.out.println(predictionJson);
 		public String prediction()
 		{
 			return "prediction";
+		}
+		
+		
+		@GetMapping("/getReviews")
+		public String getReviews(@RequestParam("plan") String plan, HttpSession session)
+		{
+			System.out.println("What is the plan:****:"+plan);
+			List<Reviews> reviews = new ArrayList<>();
+			reviews = companyService.getReviews(plan);
+			session.setAttribute("planReview", reviews);
+			return "redirect:/specificTravelPlan";
 		}
 	    
  }
