@@ -96,7 +96,7 @@ p.lexError {
 
 
 	<p style="width: 400px; margin-left: 550px">
-	<h1 style="margin-left: 550px">Welcome to TravelEasy!</h1>
+	<h1 style="margin-left: 550px">Welcome to TravelEzy!</h1>
 	</p>
 	<div id="conversation"
 		style="width: 400px; margin-left: 550px; height: 400px; border: 1px solid #ccc; background-color: #a9d3d7; padding: 4px; overflow: scroll"></div>
@@ -240,24 +240,7 @@ p.lexError {
 		}
 
 
-		//API Call
-	/* 	
-		$(document).ready(function(){
-		 	$("#getReq").click(function(){
-		 		$.get("https://ntfa40vdb2.execute-api.us-east-1.amazonaws.com/Dev/?custId=1543172268", function(data, status){
-		 		//	$.get("https://ntfa40vdb2.execute-api.us-east-1.amazonaws.com/Dev/?custId=userName", function(data, status){
-		 		// alert("Data: " + data + "\nStatus: " + status);
-		 		$("#result").text(JSON.stringify(data) );
-		 		var result = $("#result").text(JSON.stringify(data) );
-		 		var country = data.country;
-		 		var month = data.month;
-		 		console.log("Country of the user is: "+country);
-		 		console.log("Month of the Trip is: "+month);
-		 		
-		 		});
-		 	});
-		 });
- */
+	
 
  
 
