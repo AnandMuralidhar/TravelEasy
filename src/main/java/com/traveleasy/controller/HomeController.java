@@ -1,14 +1,16 @@
 package com.traveleasy.controller;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StreamUtils;
@@ -86,17 +88,8 @@ public class HomeController {
 
 		try {
 			ru = om.readValue(response, LexUser.class);
-			String lexUserId = ru.getUserId();
-			String lexCountry = ru.getCountry();
-			String lexMonth = ru.getMonth();
 			System.out.println("Lex Data: "+ru);
 			
-			//Need edition
-			List<Travelplan> Travelplans = new ArrayList<>();
-			Travelplans =companyService.findTravelPlans(lexCountry, lexMonth);
-			System.out.println("Exact Matched Travel plan: "+Travelplans);
-			session.setAttribute("Travelplans", Travelplans);
-			return "redirect:/userTravelPlans";
 						
 		} catch (JsonParseException e) {
 			
@@ -108,9 +101,40 @@ public class HomeController {
 			
 			e.printStackTrace();
 		}
-
-		return "redirect:/userTravelPlans";
+		
+		String lexUserId = ru.getUserId();
+		String lexCountry = ru.getCountry();
+		String lexMonth = ru.getMonth();
+		//Need edition
+		List<Travelplan> Travelplans = new ArrayList<>();
+		Travelplans =companyService.findTravelPlans(lexCountry, lexMonth);
+		System.out.println("Exact Matched Travel plan: "+Travelplans);
+	
+		
+		
+		/* 4 Dec by chaitrali*/
+		if (Travelplans.isEmpty())
+		{
+			System.out.println("Hey are you coming in error page??????");
+			session.setAttribute("errorMessage", "Sorry we currently don't have any plans for "+lexCountry+" in the month of "+lexMonth+"!");
+			return "redirect:/errorPage";
+		}else
+		{
+			System.out.println("Hey are you coming in else page??????");
+			session.setAttribute("LexUserID", lexUserId);
+			session.setAttribute("Travelplans", Travelplans);
+			return "redirect:/userTravelPlans";
+		}
+		
 	}
+	
+	
+	/* 4 Dec by chaitrali*/
+	@GetMapping("/errorPage")
+	public String errorPage() {
+		return "errorPage";
+	}
+	
 
 	@GetMapping("/companyPage")
 	public String companyPage() {
@@ -120,6 +144,11 @@ public class HomeController {
 	@GetMapping("/userdashboard")
 	public String userdashboard() {
 		return "userdashboard";
+	}
+	
+	@GetMapping("/fblogin")
+	public String fblogin() {
+		return "fblogin";
 	}
 
 	@GetMapping("/retrievereviews")
@@ -167,6 +196,8 @@ public class HomeController {
 		Travelplan tp = new Travelplan();
 		tp = companyService.findTravelPlanByName(planName);
 		System.out.println("specific travelplan ***********"+tp);
+		String lexUserId = (String) session.getAttribute("LexUserID");
+		session.setAttribute("LexUserID", lexUserId);
 		session.setAttribute("SpecificTravelPlan", tp);
 		return "redirect:/specificTravelPlan";
 	}
@@ -174,6 +205,29 @@ public class HomeController {
 	@GetMapping("/specificTravelPlan")
 	public void getTravelPlanByName(HttpSession session) {
 		session.getAttribute("SpecificTravelPlan");
+	}
+	
+	@GetMapping("/selectPlan")
+	public String selectPlan(HttpSession session) {
+		
+		Travelplan tp = (Travelplan) session.getAttribute("SpecificTravelPlan");
+		Usertravelplan up = new Usertravelplan();
+		up.setBudget(tp.getBudget());
+		up.setCountry(tp.getCountry());
+		up.setPlan(tp.getPlan());
+		up.setMonth(tp.getMonth());
+		String lexUserId = (String) session.getAttribute("LexUserID");
+		up.setuserName(lexUserId);
+		if(userService.adduserTravelPlan(up))
+		{
+			session.setAttribute("message", "Travel Plan selected");
+			return "redirect:/specificTravelPlan";
+		}else
+		{
+			session.setAttribute("errorMessage", "Opps! there is some problem!");
+			return "redirect:/errorPage";
+		}
+	
 	}
 	
 
@@ -225,7 +279,8 @@ public class HomeController {
 				return "redirect:/loginPage";
 			}
 			session.setAttribute("loggedCompany", company);
-			session.setAttribute("companyEmailId", company.getCompUsername());
+			session.setAttribute("companyusername", company.getCompUsername());
+			session.setAttribute("companyname", company.getCompName());
 			session.setAttribute("message", "success");
 			return "redirect:/companyPage";
 		}
@@ -264,7 +319,7 @@ public class HomeController {
 		user.setUseremailid(email);
 		user.setUserfirstname(name);
 		session.setAttribute("loggedUser", user.getUserfirstname());
-		return "redirect:/lex1";
+		return "redirect:/userHomepage";
 	}
 
 	@GetMapping("/lex")
@@ -294,7 +349,7 @@ public class HomeController {
 		return "userSignup";
 	}
 
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(ModelMap model, HttpSession session) {
 		String id_token = (String) session.getAttribute("id_token");
 		if (id_token != null) {
@@ -313,7 +368,7 @@ public class HomeController {
 
 		return "loginPage";
 	}
-
+*/
 	@PostMapping("/adduser")
 	public String adduser(@RequestParam("fname") String fname,@RequestParam("username") String username, @RequestParam("email") String email,
 			@RequestParam("pwd") String pwd, HttpSession session) {
@@ -382,44 +437,15 @@ public class HomeController {
 		return "redirect:/postreviews";
 	}
 
-/*	@PostMapping("/traveldata")
-	public String travelData(@RequestPart(value = "itinerary") MultipartFile itinerary,
-			@RequestPart(value = "planimage") MultipartFile planimage,
-			@RequestParam("companyemailid") String companyemailid, @RequestParam("country") String country,
-			@RequestParam("month") String month, @RequestParam("plan") String plan, @RequestParam("budget") int budget,
-			HttpSession session) {
-		Long itenerarysize = itinerary.getSize() / 1024 / 1024;
-		Long planimagesize = planimage.getSize() / 1024 / 1024;
-		if ((itenerarysize <= 10) && (planimagesize <= 10)) {
-			String itineraryimgurl = this.amazonClientService.uploadTravelFiletoS3(itinerary, companyemailid, plan);
-			String planimgurl = this.amazonClientService.uploadTravelFiletoS3(planimage, companyemailid, plan);
-			Travelplan tp = new Travelplan();
-			tp.setCompanyemailid(companyemailid);
-			tp.setCountry(country);
-			tp.setMonth(month);
-			tp.setPlan(plan);
-			tp.setBudget(budget);
-			tp.setItineraryimageurl(itineraryimgurl);
-			tp.setPlanimageurl(planimgurl);
-			if (companyService.addTravelplan(tp)) {
-				session.setAttribute("message", "success");
-				return "redirect:/companyPage";
-			}
-			session.setAttribute("message", "failed");
-			return "redirect:/companyPage";
-		}
-
-		session.setAttribute("message", "Upload failed!!! Please upload images less than 10MB.");
-		return "redirect:/companyPage";
-
-	}*/
-	
 	
 	@PostMapping("/traveldata")
 	public String travelData(@RequestPart(value = "itinerary") MultipartFile itinerary, 
 			@RequestPart(value = "planimage") MultipartFile planimage,@RequestParam("companyname") String companyname,@RequestParam("companyusername") String companyusername, @RequestParam("country") String country,
 			@RequestParam("month") String month, @RequestParam("plan") String plan, @RequestParam("budget") int budget, HttpSession session)
 	{
+		
+		System.out.println("Company Name: "+companyname);
+		System.out.println("Comapny Username: "+companyusername);
 		Long itenerarysize = itinerary.getSize() / 1024 / 1024 ;
 		Long planimagesize = planimage.getSize() / 1024 / 1024 ;
 		if((itenerarysize <= 10) && (planimagesize <= 10)) {
@@ -453,34 +479,12 @@ public class HomeController {
 } 
 	
 	
-	
-	@PostMapping("/companytravelplans")
-	public String companyTravelplans(@RequestParam(value = "companyname") String companyname,
-			@RequestParam("companyusername") String companyusername, HttpSession session){
-		ArrayList<Travelplan> tp = companyService.retrieveCompanyTravelplans(companyusername);
-		if(tp.isEmpty()) {
-			System.out.println(companyusername);
-			System.out.println("null");
-			session.setAttribute("travelplan", null);
-			session.setAttribute("companyname", companyname);	
-			session.setAttribute("notravelplans", "no travel plans");	
-			 session.setAttribute("companyusername", companyusername);
-			return "redirect:/companyPage";
-		}
-		System.out.println(tp);
-		session.setAttribute("travelplan", tp);
-		session.setAttribute("companyname", companyname);	
-		 session.setAttribute("companyusername", companyusername);
-		return "redirect:/companyPage";
-		}
-	
-	
-	
+	/*Edited by Prathyusha on 5th */
 	@PostMapping("/travelplandelete")
 	public String deleteCompanyTravelplan(@RequestParam(value = "companyname") String companyname,
 			@RequestParam("companyusername") String companyusername,
-	@RequestParam("plan") String plan, HttpSession session){
-		if(companyService.deleteTravelplan(plan)) {
+	@RequestParam("travelplanid") Integer travelplanid, HttpSession session){
+		if(companyService.deleteTravelplan(travelplanid)) {
 			session.setAttribute("companymessage", "deleted");	
 			session.setAttribute("companyname", companyname);	
 			 session.setAttribute("companyusername", companyusername);
@@ -491,6 +495,7 @@ public class HomeController {
 		 session.setAttribute("companyusername", companyusername);
 		return "redirect:/companyPage";
 	}
+	
 	 @RequestMapping(path="/audio", produces="audio/mpeg3")
      public @ResponseBody byte[] textToSpeech(@RequestParam("msg") String msg) throws IOException {
                  InputStream is = pollyhelper.synthesize(msg, OutputFormat.Mp3);
@@ -500,26 +505,6 @@ public class HomeController {
 	  @Autowired
 	    public void PredictionController(PredictionService predictionService) {
 	        this.predictionService = predictionService;
-	    }
-
-	    @RequestMapping(value = "/prediction")
-	    public String getPredication(@RequestParam("companyname") String companyname,
-	    		@RequestParam("companyusername") String companyusername, @RequestParam("country") String country,@RequestParam("month") String month,
-	    		@RequestParam("budget") String budget,HttpSession session) {
-	    	String budget1 = '$'+ budget;
-	    	System.out.println(budget1);
-	        Optional result = predictionService.getPrediction(createPrediction(country,month,budget1));
-	        if (result.isPresent()) {
-	        	session.setAttribute("companyusername", companyusername);
-	        	session.setAttribute("companyname", companyname);
-	        	session.setAttribute("companymessage",  "Chance of response is " + String.format("%.0f", (Float) result.get() * 100) + "%");
-	            return "redirect:/companyPage";
-	        }
-	        session.setAttribute("companyusername", companyusername);
-	        session.setAttribute("companyname", companyname);
-	        System.out.println("error");
-	        session.setAttribute("companymessage", "Error when calculate probability of response");
-	        return "redirect:/companyPage";
 	    }
 	    
 	   
@@ -536,10 +521,113 @@ System.out.println(predictionJson);
 
 	        return prediction;
 	    }
+	    
+	    
+	    /* Edited by Prathyusha */
+	    @RequestMapping(value = "/prediction")
+	    public String getPredication(@RequestParam("country") String country,@RequestParam("month") String month,
+	    		@RequestParam("budget") String budget,HttpSession session) {
+	    	String budget1 = '$'+ budget;
+	    	System.out.println(budget1);
+	        Optional result = predictionService.getPrediction(createPrediction(country,month,budget1));
+	        Optional result1 = predictionService.getPrediction1(createPrediction(country,month,budget1));
+	        if (result.isPresent() && result1.isPresent()) {
+	        	session.setAttribute("negative",  String.format("%.0f", (Float) result.get() * 100));
+	        	session.setAttribute("positive",  String.format("%.0f", (Float) result1.get() * 100));
+	            return "redirect:/prediction";
+	        }
+	        System.out.println("error");
+	        session.setAttribute("companymessage", "Error when calculate probability of response");
+	        return "redirect:/prediction";
+	    }
+	    
+	    
 
 	    private String getPredictionJson(String country,String month,String budget1) {
 	    	return "{\"country\":\""+ country +"\",\"month\":\"jan\",\"budget\":\""+ budget1 +"\"}";
 	    }
 
+	    /*Edited By Chaitrali*/
+	    @GetMapping("/downloadTravelPlanItinerary")
+	    private ResponseEntity downloadTravelPlanItinerary(String itinerary, String companyname, String plan){
+	    	
+	    	System.out.println("Values from jsp: "+itinerary+" "+companyname+" "+plan);
+	    	String fileName = itinerary.substring(itinerary.lastIndexOf('/') + 1);
+	    	byte[] data=this.amazonClientService.downloadFile(fileName, companyname, plan);
+	    	
+	        // Try to determine file's content type
+	        String contentType = null;
+	    
+	        // Fallback to the default content type if type could not be determined
+	        if(contentType == null) {
+	            contentType = "application/octet-stream";
+	        }
+	        return ResponseEntity.ok()
+	                .contentType(MediaType.parseMediaType(contentType))
+	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+	                .body(data);
+		}
+	    
+	    
+	    
+	    
+	    @GetMapping("/endPage")
+		public String endPage() {
+			return "endPage";
+		}
+	    
+	    
+	    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+		public String logout(ModelMap model, HttpSession session) {
+			
+			String id_token = (String) session.getAttribute("id_token");
+			if (id_token != null) {
+				try {
+					GoogleIdToken.Payload payLoad = IdTokenVerifierAndParser.getPayload(id_token);
+					if (payLoad != null) {
+						payLoad.setExpirationTimeSeconds(1L);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			session.invalidate();
+			return "redirect:/endPage";
+		}
+	    
+	    
 
-}
+		/* Edited by Prathyusha on 5th*/
+		@PostMapping("/companytravelplans")
+		public String companyTravelplans(@RequestParam(value = "companyname") String companyname,
+				@RequestParam("companyusername") String companyusername, HttpSession session){
+			ArrayList<Travelplan> tp = companyService.retrieveCompanyTravelplans(companyusername);
+			if(tp.isEmpty()) {
+				System.out.println(companyusername);
+				System.out.println("null");
+				session.setAttribute("travelplan", null);
+				session.setAttribute("companyname", companyname);	
+				session.setAttribute("companymessage", "no travel plans");
+				session.setAttribute("notravelplans", "no travel plans");	
+				 session.setAttribute("companyusername", companyusername);
+				return "redirect:/companyPage";
+			}
+			String message = "You have " + tp.size() + " plans";
+			System.out.println(tp);
+			session.setAttribute("travelplan", tp);
+			session.setAttribute("companymessage", message);	
+			session.setAttribute("companyname", companyname);	
+			 session.setAttribute("companyusername", companyusername);
+			return "redirect:/companyPage";
+			}
+	    
+		
+		@GetMapping("/prediction")
+		public String prediction()
+		{
+			return "prediction";
+		}
+	    
+ }
+	   
+

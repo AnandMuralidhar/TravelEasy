@@ -38,6 +38,16 @@ public class PredictionService {
 	        if (resultMap.isEmpty()) {
 	            return Optional.empty();
 	        }
+	        return Optional.of(resultMap.get("0"));
+	    
+	        
+	    }
+	    public Optional<Float> getPrediction1(final Prediction prediction) {	    	
+	    	PredictResult result = client.predict(buildPredictionRequest(prediction));
+	        Map<String,Float> resultMap = result.getPrediction().getPredictedScores();
+	        if (resultMap.isEmpty()) {
+	            return Optional.empty();
+	        }
 	        return Optional.of(resultMap.get("1"));
 	    
 	        

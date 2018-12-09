@@ -12,68 +12,84 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	
+<style>
+table {
+	width: 100% !important;	
+}
+
+.dashboardtable{
+width: 100% !important;	
+}
+.dthead {
+	text-align: left;
+}
+.dtr {
+	background-color: #dccdc;
+}
+.tripdata {
+display: block;
+margin-left: 38%;
+}
+input[type=text], select {
+    display: block;
+}
+.company-container {
+    margin: auto;
+    width: 30%;
+    padding: 10px;
+    text-align: center;
+    
+}
+.prediction {
+float: right;
+margin-right: 5%;
+}
+label {
+  display: inline-block;
+  width: 140px;
+  text-align: right;
+  float: left;
+}
+.companytravelplans {
+margin-left: 4%;
+}
+
+#displayreviews {
+width: 100%;
+margin: 4%;
+}
+
+</style>	
 </head>
 	<body background="https://images.pexels.com/photos/386025/pexels-photo-386025.jpeg ">
 	<h2>Welcome ${companyname} </h2>
-	<div class="logout">
-<form action="/logout" method="post">
- <input type="submit" name="logout" value="Logout">
-</form>
-</div>
-	<h3> ${companymessage}</h3>
-	<div class="container">
-	<form method="POST" class="form-horizontal" action="/prediction">
-	<div class="form-group">
-	<input type="hidden" name="companyname" value="${companyname}">
-	<input type="hidden" name="companyusername" value="${companyusername}">
-	<label class="control-label col-sm-2" for="country">Country:</label>
-				<div class="col-sm-10"> <input type="text" class="tripdata" name="country" placeholder="enter destination" required><br />
-				</div>
-			   <label class="control-label col-sm-2">Month:</label>
-				<div class="col-sm-10">
-				 <select class="tripdata" name="month" required>
-                <option value="January">January</option>
-                <option value="February">February</option>
-                <option value="March">March</option>
-                <option value="April">April</option>
-                <option value="May">May</option>
-                <option value="June">June</option>
-                <option value="July">July</option>
-                <option value="August">August</option>
-                <option value="September">September</option>
-                <option value="October">October</option>
-                <option value="November">November</option>
-                <option value="December">December</option>
-                    
-                 </select> <br />
-                 <label class="control-label col-sm-2">Budget:</label>
-				<div class="col-sm-10">
-				 <input type="text" class="tripdata" name="budget" placeholder="enter budget" onkeypress="return isNumberKey(event)" required>
-				</div>
-				<button type="submit">Predict</button>
-				</div>
-	</div>
+<div class="w3-container" style="margin-top: 20px; margin-right: 50px;">
+	<form method="POST" action="/logout" >
+	<p align="right">
+    <input type="submit" class="w3-btn w3-black" value="Logout"></p>
 	</form>
+	</div>
+	<h3> ${companymessage}</h3>
+	<div class="company-container">
 	
 		<form method="POST" class="form-horizontal" action="/traveldata"  enctype="multipart/form-data">
-			<div class="form-group">
+			
 	<input type="hidden" name="companyname" value="${companyname}">
 	<input type="hidden" name="companyusername" value="${companyusername}">
-				<label class="control-label col-sm-2" for="file">Upload Itinerary:</label>
-				<div class="col-sm-10">
-					<input type="file" class="tripdata" name="itinerary" required><br />
+				<label for="file">Upload Itinerary:</label>
+				<div class="tripdata">
+					<input type="file" name="itinerary" required><br />
+					</div>
+				<label for="file">Upload Image:</label>
+				<div class="tripdata">	<input type="file" name="planimage" required><br />
 				</div>
-				<label class="control-label col-sm-2" for="file">Upload Image:</label>
-				<div class="col-sm-10">
-					<input type="file" class="tripdata" name="planimage" required><br />
-				</div>
-				<label class="control-label col-sm-2" for="country">Country:</label>
-				<div class="col-sm-10"> <input type="text" class="tripdata" name="country" placeholder="enter destination" required><br />
-				</div>
-			   <label class="control-label col-sm-2">Month:</label>
-				<div class="col-sm-10">
-				 <select class="tripdata" name="month" required>
+				<label for="country">Country:</label>
+				<div class="tripdata">
+               <input type="text" name="country" placeholder="enter destination" required><br />
+			   </div>
+			   <label>Month:</label>
+			   <div class="tripdata">
+				 <select name="month" required>
                 <option value="January">January</option>
                 <option value="February">February</option>
                 <option value="March">March</option>
@@ -85,21 +101,22 @@
                 <option value="September">September</option>
                 <option value="October">October</option>
                 <option value="November">November</option>
-                <option value="December">December</option>
-                    
+                <option value="December">December</option>                   
                  </select> <br />
+                 </div>
+				<label>Plan name:</label>
+				<div class="tripdata">
+				 <input type="text" name="plan" placeholder="enter unique plan name" required><br />
 				</div>
-				<label class="control-label col-sm-2">Plan name:</label>
-				<div class="col-sm-10">
-				 <input type="text" class="tripdata" name="plan" placeholder="enter unique plan name" required><br />
-				</div>
-				<label class="control-label col-sm-2">Budget:</label>
-				<div class="col-sm-10">
-				 <input type="text" class="tripdata" name="budget" placeholder="enter budget" onkeypress="return isNumberKey(event)" required>
+				<label>Budget:</label>
+				<div class="tripdata">
+				 <input type="text" name="budget" placeholder="enter budget" onkeypress="return isNumberKey(event)" required><br />
 				</div>
 				<button type="submit">Submit</button>
-			</div>
-		</form>
+		</form>		
+	</div>
+	<div class="prediction">
+	<button type="submit"><a target="_blank" href="prediction">Predict</a></button>
 	</div>
 	<div class="companytravelplans">
 			<form method="POST" action="/companytravelplans">
@@ -123,7 +140,7 @@
 						<th>Itinerary Image</th>
 						<th>Plan Image</th>
 						<th>Delete</th>
-						<th>Edit</th>
+						<th>View Reviews</th>
 						</tr>
 					</thead>
 <tbody class="dtr">
@@ -134,31 +151,26 @@
 	<td>${item.plan} </td>
 	<td>${item.country}</td>
 <td>${item.month}</td>
-	<td>${item.budget}</td>
+	<td>$${item.budget}</td>
 <td><a href="${item.itineraryimageurl}">Itinerary image</a></td>
 <td><a href="${item.planimageurl}">Itinerary image</a></td>
 	<td><form method="post" action="/travelplandelete">
 	<input type="hidden" name="companyname" value="${companyname}">
 		<input type="hidden" name="companyusername" value="${companyusername}">
-		<input type="hidden" name="plan" value="${item.plan}">
-	<button>Delete</button>
+		<input type="hidden" name="travelplanid" value="${item.travelPlanId}">
+	<button><span class="glyphicon glyphicon-trash"></span></button>
 	</form></td>
-	
-<td>	<button onclick="editalert()" ><span class="glyphicon glyphicon-edit"></span></button></td>	
+<td><input type="hidden" id="plan" value="${item.plan}">
+
+<button type="submit" id="getreviews" value="${item.plan}" class="getreviews" onClick="getreviews('${item.plan}')" >Reviews</button> </td>
 </tr>										
  </c:forEach>
 </tbody>
-
-
 </table>
  <% }
- else
- { %>
-	 <div class="nofiles">
-	 <p><%=session.getAttribute("notravelplans")%></p>
-	</div>
-  <% } %>
+ %>
   </div>
+  <div id="displayreviews"></div>
 	</body>
 	<script>
 	function isNumberKey(evt){
@@ -170,6 +182,13 @@
 	function editalert(){
 		alert("Please upload the plan with same name to update!!!")
 	}
+	 function getreviews(plan) {
+		 $.get("retrievereviews",{plan:plan},function(data){
+
+	     $("#displayreviews").html(data);
+		 
+	     });
+	 } 
 	var message = $("h3").text();
 	 var audio = new Audio('audio?msg=' + message);
      audio.play();
@@ -177,8 +196,3 @@
 	</script>
 	
 </html>
-<style>
-.tripdata {
-display: block;
-}
-</style>

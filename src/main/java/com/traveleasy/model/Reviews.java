@@ -43,7 +43,7 @@ public class Reviews {
 		return username;
 	}
 
-	public void setuserName(String userName) {
+	public void setuserName(String username) {
 		this.username = username;
 	}
 

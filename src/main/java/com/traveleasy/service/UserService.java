@@ -58,5 +58,16 @@ public class UserService {
 	}
 	
 	
+	public boolean adduserTravelPlan(Usertravelplan up) {
+		try {
+			usertravelplanRepository.save(up);
+			return true;
+		} catch (Exception e) {
+
+		}
+		return false;
+	}
+	
+	
 	
 }

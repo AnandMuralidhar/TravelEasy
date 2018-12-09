@@ -25,8 +25,5 @@ public interface TravelplanRepository extends JpaRepository<Travelplan,Integer>{
 	@Query("SELECT t FROM Travelplan t WHERE LOWER(t.companyusername) = LOWER(:companyusername)")
     public ArrayList<Travelplan> retrieveCompanyTravelplans(@Param("companyusername") String companyusername);
 
-	@Query("DELETE FROM Travelplan WHERE LOWER(plan) = LOWER(:plan)")
-	public void delete(@Param("plan") String plan);
-	
 	
 }

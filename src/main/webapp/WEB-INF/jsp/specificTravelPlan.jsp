@@ -2,19 +2,6 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="application/javascript">
- function getreviews() {
-	 var planname = $("#planname").val(); 
-	 alert("hi");
-	
-	 $.get("retrievereviews",{planname:planname},function(data){
-
-     $("#displayreviews").html(data);
-	 
-     });
- }
-
-</script>
 <style>
 body {
   font-family: Times New Roman, Times, serif;
@@ -73,9 +60,10 @@ input[type=submit]:hover {
 </head>
 <body>
 
-
+${message}
 <div class="container">
   <div style="text-align:center">
+
     <h2>Plan details</h2><br />
   
 
@@ -86,14 +74,30 @@ input[type=submit]:hover {
        <h4> Month:  ${SpecificTravelPlan.month} </h4><br /> 
        
        <h4> Budget:  ${SpecificTravelPlan.budget} </h4><br /> 
+       <a href="/selectPlan?travelPlan=${SpecificTravelPlan}">Select This Plan</a>
     </div>
     
-    <input type="hidden" id="planname" value="${SpecificTravelPlan.plan}">
-<button type="submit" id="getreviews" class="getreviews" onClick="getreviews()" >Reviews</button>
+    <input type="hidden" id="plan" value="${SpecificTravelPlan.plan}">
+    
+    
+<button type="submit" id="getreviews" class="getreviews" onClick="getreviews('${SpecificTravelPlan.plan}')" >Reviews</button>
+
+</div>
 <div id="displayreviews"></div>
     
-</div>
+
 
 
 </body>
+<script>
+
+function getreviews(plan) {
+	 $.get("test",{plan:plan},function(data){
+
+    $("#displayreviews").html(data);
+	 
+    });
+} 
+
+</script>
 </html>

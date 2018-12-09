@@ -73,10 +73,12 @@ public class CompanyService {
 	}
 	
 	
-	public boolean deleteTravelplan(String plan) {
+	/*Edited by Prathyusha on 5th */
+	public boolean deleteTravelplan(Integer travelplanid) {
 
 		try {
-			travelplanRepository.delete(plan);
+			
+			travelplanRepository.delete(travelplanid);
 			return true;
 		} catch (Exception e) {
 			System.out.println("delete exception");

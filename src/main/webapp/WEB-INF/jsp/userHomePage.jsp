@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-      <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+       <%@ page import ="com.traveleasy.model.Usertravelplan" %>
+       <%@ page import ="java.util.ArrayList"%>
 <!DOCTYPE html><html>
 <head>
 <meta charset="UTF-8">
@@ -8,54 +9,96 @@
 <script src="/resources/script.js"></script>
         
 <title>Home Page</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="application/javascript">
 
 </script>
+<style>
+table {
+	width: 100% !important;	
+}
+
+.dashboardtable{
+width: 100% !important;	
+}
+.dthead {
+	text-align: left;
+}
+.dtr {
+	background-color: #dccdc;
+}
+.lex {
+float: right;
+margin: 5% 10%;
+background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+    width: 5%;
+    opacity: 0.9;
+}
+a {
+text-decoration: none;
+}
+</style>
 </head>
 <body>
 <h2>Welcome ${loggedUser.getUserfirstname()}</h2>
 <div class="previoustravelplans">
 <% 
  if(session.getAttribute("usertravelplans") != null)
- { 
+ {
+	 System.out.println("not null");
+	 ArrayList<Usertravelplan> a = (ArrayList<Usertravelplan>)session.getAttribute("usertravelplans"); 
  %>
  <table class="dashboardtable">
 					<thead class="dthead">
+					<tr>
 						<th>Plan name</th>
 						<th>Country</th>
 						<th>Month</th>
 						<th>Budget</th>
 						<th>Post Review</th>
+									</tr>
 					</thead>
-<tbody class="dtr">
 
- 
-<c:forEach items="${usertravelplans}" var="item">
+<tbody class="dtr">
+<% 
+for(Usertravelplan u : a) 
+{ %>
 <tr>
-	<td>${item.plan} </td>
-	<td>${item.country} </td>
-	<td>${item.month} </td>
-<td>${item.budget} </td>
-<td><button></button></td></tr>
- </c:forEach>										
+	<td><%out.println(u.getPlan()); %></td>
+	<td><%out.println(u.getCountry()); %></td>
+	<td><%out.println(u.getMonth()); %></td>
+	<td><%out.println(u.getBudget()); %></td>
+
+<td><button><a href="postreviews?username=<%=u.getuserName()%>&plan=<%=u.getPlan()%>">Post reviews</a></button></td></tr>
+										
+
+	 
+ <% } %>
 </tbody>
 
- 
+
 </table>
- 
+<%  }
  else
  { %>
 	 <div class="noplans">
-	<% out.println("not travelled yet"); %>
-	</div>
-  <% } %>
+	<%  out.println("not travelled yet"); %>
+	 </div>
+ <%   } %>
+  
  	</div>
 
 <div>
 
 <form method="GET"  action="/lex1">
-<button type="submit" style="margin-left: 500px"
-			class="btn btn-success">Lex</button> 
+<button type="submit" class="btn btn-success lex">Lex</button> 
 </form>
 
 </div>

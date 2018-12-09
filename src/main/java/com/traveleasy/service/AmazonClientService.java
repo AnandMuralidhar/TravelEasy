@@ -15,8 +15,12 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.util.IOUtils;
 
 @Service
 public class AmazonClientService {
@@ -48,7 +52,8 @@ public class AmazonClientService {
 			// s3client.putObject(awsS3Bucket, keyName, s3File);
 			s3client.putObject(new PutObjectRequest(awsS3Bucket, keyName, s3File)
 					.withCannedAcl(CannedAccessControlList.PublicRead));
-
+			System.out.println("Uploding*****"+endpointUrl + "/" + awsS3Bucket + "/" + keyName);
+			
 			return endpointUrl + "/" + awsS3Bucket + "/" + keyName;
 
 		} catch (Exception e) {
@@ -114,5 +119,22 @@ public class AmazonClientService {
 		fos.close();
 		return convFile;
 	}
+	
+	public byte[] downloadFile(String fileName, String companyname, String plan) {
+
+		String folderName = "travelplans";
+		try {
+			String keyName = folderName + "/" + companyname + "/" + plan + "/" + fileName;
+			S3Object s3Object = s3client.getObject(new GetObjectRequest(awsS3Bucket, keyName));
+			S3ObjectInputStream inputStream = s3Object.getObjectContent();
+			byte[] bytes = IOUtils.toByteArray(inputStream);
+			return bytes;
+			} catch (IOException e) {
+
+			throw new RuntimeException("FAIL!");
+		}
+
+	}
+	
 
 }

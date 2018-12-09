@@ -9,6 +9,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <script src="https://sdk.amazonaws.com/js/aws-sdk-2.41.0.min.js"></script>
 
@@ -28,6 +31,20 @@ input#wisdom {
 	width: 400px
 }
 
+#bdy {
+    /* The image used */
+    background-image: url("https://images.unsplash.com/uploads/141202616623001715bb7/c1b3b9b0?ixlib=rb-0.3.5&s=0ec689e4a4a33110315bd7846be5bb3e&auto=format&fit=crop&w=1094&q=80");
+	
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+
 input::placeholder {
 	color: #ccc;
 	font-style: italic;
@@ -40,7 +57,7 @@ p.userRequest {
 	min-width: 50%;
 	max-width: 85%;
 	float: left;
-	background-color: #e7b6a3;
+	background-color: #11aec3;
 }
 
 p.lexResponse {
@@ -51,7 +68,7 @@ p.lexResponse {
 	min-width: 50%;
 	max-width: 85%;
 	float: right;
-	background-color: #a1c4df;
+	background-color: #c7db57;
 	font-style: italic;
 }
 
@@ -68,16 +85,25 @@ p.lexError {
 </style>
 </head>
 
-<body>
+<body id ="bdy">
+
+	<div class="w3-container" style="margin-top: 40px; margin-right: 50px;">
+	<form method="POST" action="/logout" >
+	<p align="right">
+    <input type="submit" class="w3-btn w3-black" value="Logout"></p>
+	</form>
+	</div>
+
+
 	<p style="width: 400px; margin-left: 550px">
 	<h1 style="margin-left: 550px">Welcome to TravelEasy!</h1>
 	</p>
 	<div id="conversation"
-		style="width: 400px; margin-left: 550px; height: 400px; border: 1px solid #ccc; background-color: #beefa4; padding: 4px; overflow: scroll"></div>
+		style="width: 400px; margin-left: 550px; height: 400px; border: 1px solid #ccc; background-color: #a9d3d7; padding: 4px; overflow: scroll"></div>
 	<form id="chatform" align="center" style="margin-top: 10px"
 		onsubmit="return pushChat();">
-		<input type="text" id="wisdom" size="80" value=""
-			placeholder="I need to see travel plans"> <input
+		<input type="text" id="wisdom" style="margin-right: 10px" value=""
+			 placeholder="I need to see travel plans"> <input
 			type="hidden" id="userID"
 			value="<%=session.getAttribute("DynamoUser") %>">
 
@@ -93,7 +119,7 @@ p.lexError {
 		<!-- <button type="button" id="getReq" style="margin-left: 500px"
 			class="btn btn-success">Submit</button> -->
 	
-	<a href="/getData"><h4><font color= "red">Submit</font></h4></a>
+	<a href="/getData"><h4><strong><font color= "white" style="margin-left: 500px" >Submit</font></strong></h4></a>
 
 	</div>
 

@@ -9,29 +9,36 @@
 </head>
 <body>
 <%
-   String q = request.getParameter("planname");
+System.out.println("retrieve reviews");
+   String q = request.getParameter("plan");
 System.out.println(q);
    try {
         Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://travelapp1.c7m1brswcf1h.us-east-1.rds.amazonaws.com:3306/travelapp", "travelapp1", "root1234");
         Statement smt = con.createStatement(); //Create Statement to interact
         ResultSet r = smt.executeQuery("select * from reviews where(plan='" + q + "');");
-        while (r.next()) {
+        int count = 0;
+        while (r.next()) { 
         	String name = r.getString("userName"); %>
-     <p>Username:  <%=r.getString("userName")%> </p> 
+    <div class="dynamicreviews" style="width: 30%; float: left;">
+   
+     <img src="<%=r.getString("imageurl")%>" alt="" height="300" width="300" />   
+       <p>Username:  <%=r.getString("userName")%> </p> 
      <p>Comment:  <%=r.getString("comment")%> </p> 
-     <img src="<%=r.getString("imageurl")%>" alt="" height="42" width="42" />
-     
-     
-     
-     <% 
+     </div> 
+     <% count = count+1;
           
-        }
-        con.close();
+        } 
+       
+			if (count == 0)
+			{ %>
+				<p style="text-align: center;">No reviews </p>
+			<% }
+       con.close();  
    } catch (Exception e) {
         e.printStackTrace();
    }
 %>
-
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.9.0/slick/slick.min.js"></script>
 </body>
 </html>
